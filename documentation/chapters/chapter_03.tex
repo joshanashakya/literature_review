@@ -1,0 +1,87 @@
+\section{Data Cleaning and Preparation}
+The data is cleaned by first removing the punctuation characters. In the case of English text, the lowercase conversion of characters is performed; and the Unicode characters are normalized to ASCII characters. From the resulting data, non-alphabetic characters are removed. Finally, the vocabulary of each language is constructed with word index (mapping from word → id) and reverse word index (mapping from id → word). Each sentence is then padded to maximum length.
+
+\section{Neural Translation Model}
+An encoder and decoder model is used to construct a neural translation model. The LSTM variant of the recurrent neural network is used to construct each component of the model.
+
+\subsection{Recurrent Neural Networks}
+In recurrent neural networks, a model takes as input the current time step t and all of the previous time steps in order to compute the output $y^{<t>}$. At each time step $t$, the model is parameterized by shared weights $W_{ax}$, $W_{aa}$ and $W_{ya}$ , as shown in figure \ref{fig:3.1}.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{{rnn.png}}
+\caption[Structure of a basic recurrent neural network]{Structure of a basic recurrent neural network \cite{mattdeitke_sm}.}
+\label{fig:3.1}
+\end{figure}
+\
+And the activation $a^{<t>}$ and the output $y^{<t>}$ are expressed as follows:
+\begin{equation}
+\label{eq:3.1}
+a^{<t>} = g(W_{aa}a^{<t-1>} + W_{ax}x^{<t>} + b_a)
+\end{equation}
+\begin{equation}
+\label{eq:3.2}
+\hat{y}^{t} = g(W_{ya}^a{t} + b_y)
+\end{equation}
+where $g$ is any activation function.
+
+Equation \ref{eq:3.1} is simplified as:
+\begin{equation}
+\label{eq:3.3}
+a^{<t>} = g(W_a[a^{<t-1>}, x^{<t>}] + b_a)
+\end{equation}
+where $W_a$ is formed by stacking
+\begin{equation}
+\label{eq:3.4}
+W_a = [W_{aa} | W_{ax}] 
+\end{equation}
+into a single matrix.
+The simplified version of equation \ref{eq:3.2} is written as:
+\begin{equation}
+\label{eq:3.5}
+\hat{y}^<t> = g(W_ya^{<t>} + b_y)
+\end{equation}
+The loss at time step $t$ is defined using cross-entropy as:
+\begin{equation}
+L^{<t>}(\hat{y}^{<t>}, y^{<t>}) = -y^{<t>}\log \hat{y}^{<t>} - (1 - y^{<t>})\log (1 - \hat{y}^{<t>}))
+\end{equation}
+For the entire sequence, the loss is computed as:
+\begin{equation}
+L(\hat{y}, y) = \sum _{t = 1} ^{T_y} L^{<t>} (\hat{y}^{<t>}, y^{<t>})
+\end{equation}
+The computation graph is pictured in figure \ref{fig:3.2}.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{{computation_graph.png}}
+\caption[Loss computation graph]{Loss computation graph \cite{mattdeitke_sm}.}
+\label{fig:3.2}
+\end{figure}
+
+\subsection{Long Short Term Memory}
+Figure \ref{fig:3.3} shows an Long Short Term Memory (LSTM) unit.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{{lstm.png}}
+\caption[LSTM unit]{LSTM unit \cite{mattdeitke_sm}.}
+\label{fig:3.3}
+\end{figure}
+\
+The 3 separate gates used in the model are forget gate $\Gamma _f$, update gate $\Gamma _u$, and output gate $\Gamma _o$, each of which are deﬁned as:
+\begin{align}
+\Gamma _u = \sigma (W_u \cdot [x_t, h_{t-1}]) \\
+\Gamma _f = \sigma (W_f \cdot [x_t, h_{t-1}]) \\
+\Gamma _o = \sigma (W_o \cdot [x_t, h{t-1}])
+\end{align}
+The other computations are:
+\begin{align}
+\tilde{c}^{t} = \tanh (W_c [a^{<t-1>}, x^{<t>}] + b_c) \\
+c^{<t>} = \Gamma _u \times \tilde{c}^{<t>} + \Gamma _f \times c^{<t-1>} \\
+a^{<t>} = \Gamma _o \times \tanh (c^{<t>})
+\end{align}
+Here, $\tilde{c}^{<t>}$ is new information and $c^{<t−1>}$ is the old memory cell information \cite{mattdeitke_sm}.
+
+\section{Translation}
+To generate translations from a probability model, the Greedy 1-best search criterion is used. In greedy search, pt at every time step is calculated and the word that gives the highest probability is selected to use as the next word in our sequence. In other words,
+\begin{equation}
+x_t = \text{argmax} _{\tilde{x}_t} \mathbb{P}(\tilde{x}_t | x_1, \ldots, x_n)
+\end{equation}
+This technique is efficient and natural, however, it explores a small part of the search space and if there is a mistake at one-time step, the rest of the sentence could be heavily impacted \cite{manning2019cs224n}.

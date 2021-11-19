@@ -1,0 +1,14 @@
+\documentclass[12pt, a4paper]{report}
+\usepackage{amsmath, amsfonts}
+\usepackage{enumerate}
+\usepackage{multirow}
+\usepackage{graphicx, float}
+\graphicspath{{../images/}}
+
+\begin{document}
+\section{Literature Review}
+The development of the commercial machine translation system started with rule-based machine translation in 70s. The rule-based machine translation system consists of bilingual dictionary and linguistic rules which parses text and creates a transitional representation to generate text in the target language \cite{freecodecamp.org_2018} \cite{systran}. Later in 1984 \cite{freecodecamp.org_2018}, Makoto Nagao from Kyoto University came up with the notion of example-based machine translation (EBMT). The EBMT system is based on the existence of the large volume of the parallel bilingual texts that have been translated by professionals. In just five years after EBMT, the revolutionary invention of statistical translation was realized. The statistical machine translation (SMT) became the dominant framework of machine translation (MT) research as the system translated analyzing existing bilingual text corpora without using any rules and linguistics as a whole. During 2000, it became the dominant framework of MT research \cite{freecodecamp.org_2018} \cite{hutchins2005history}.In 2014 \cite{freecodecamp.org_2018}, the first scientific paper on using neural networks in machine translation was published.
+
+The 2014 paper \cite{bahdanau2014neural} of NMT introduced an extension to the encoder–decoder model to jointly learn
+to align and translate the sentence. The proposed model performs soft-search in a set of positions of a source sentence to obtain the most relevant information and generates a word in a translation. The model then predicts a target word utilizing the context vectors related with the source positions and the previously generated target words. The authors have shown that this model has improved translation performance compared to basic encoder-decoder model especially with longer sentences. They have performed the experiment with English-to-French translation using two types of models -  RNN encoder-decoder and RNN search. They have trained each model twice: first with the sentences of length up to 30 words and then with the sentences of length up to 50 words. Their experiment revealed that the proposed model outperformed the conventional encoder-decoder model.
+\end{document}

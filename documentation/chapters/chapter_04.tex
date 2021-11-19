@@ -1,0 +1,85 @@
+\section{Dataset}
+The initial requirement for carrying out the experiment is the availability of parallel corpus for source and target languages. Nepali is not a resourceful language as there is no huge availability of large datasets. The following two different datasets are considered for the experiments.
+\begin{enumerate}[i.]
+\item English-Nepali Parallel Corpus from the Nepali National Corpus \cite{elra-w0077}
+\item tico-19 v2020-10-28 from the Translation Initiative for COVID-19 \cite{tiedemann2012parallel}
+\end{enumerate}
+\
+The following table gives the details of the datasets used.
+\begin{table}[H]
+\centering
+\def\arraystretch{1.25}
+\textbf{\caption{Details of datasets}}
+\vspace{5pt}
+\begin{tabular}{|c|c|c|c|c|} \hline
+\multirow{2}{*}{Corpus} & \multicolumn{3}{|c|}{English-Nepali Parallel Corpus} & \multirow{2}{*}{tico-19 v2020-10-28} \\ \cline{2-4}
+ & project\_save & NP2 & NP8 & \\ \hline
+No. of sentences & 1060 & 50 & 1054 & 3070 \\ \hline
+\end{tabular}
+\end{table}
+
+The sentences with length greater than 30 are discarded for the experiment. The final collection consists of 3981 sentence pairs. 3000 sentence pairs are used as training samples and the remaining 981 sentence pairs are used as testing samples.
+
+\section{Implementation Environment}
+The simple NMT system is implemented by taking reference from the tutorials by Jason Brownlee \cite{brownlee_2020} and the NMT with attention is developed using TensorFlow Addons Networks : Sequence-to-Sequence NMT with Attention Mechanism as a guide \cite{tensorflow_addons}. 
+\\\\
+Anaconda distribution of Python 3.7.12 is used as programming language. TensorFlow 2.6.0 as platform and TensorFlow Addons 0.11.2 as API are used in the system design. The final experiment is carried out on Google Colab with GPU as runtime environment.
+
+\section{Parameters}
+The following parameters are used to carry out the experiment.
+\begin{table}[H]
+\centering
+\def\arraystretch{1.25}
+\textbf{\caption{Parameters}}
+\vspace{5pt}
+\begin{tabular}{|l|l|} \hline
+No. of epochs & 500 \\ \hline
+Batch size & 64 \\ \hline
+No. of units & 256 \\ \hline
+Activation & softmax \\ \hline
+Optimizer & Adam \\ \hline 
+Default learning rate & 0.001 \\ \hline
+Loss & categorical cross entropy \\ \hline
+embedding\_dim & 128 and 256 \\ \hline
+No. of layers & unknown \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Sample Translations}
+The sample translations in Nepali to English direction using simple NMT and NMT with attention are respectively shown in Table \ref{table:4.1} and Table 6.
+
+\begin{table}[H]
+\centering
+\def\arraystretch{1.25}
+\caption{Simple NMT Nepali-English Translation}
+\label{table:4.1}
+\vspace{5pt}
+\begin{tabular}{|l|p{14cm}|} \hline
+\multicolumn{2}{|l|}{Training} \\ \hline
+src & \textnepali {हामीलाई परोपकारी अर्थशास्त्रको जरुरत छ} \\ \hline
+ref & we need caring economics \\ \hline
+\textit{pred} & the the \\ \hline
+\multicolumn{2}{|l|}{Testing} \\ \hline
+src & \textnepali {सरकारी क्षेत्रको ऋणात्मक बचत र लगानीको अन्तरलाई विदेशी सहायता र आन्तरिक ऋणबाट बेहोरिनेछ।} \\ \hline
+ref & the deficit between the public sector negative savings and investment will be borne thorough foreign assistance and internal borrowing \\ \hline
+\textit{pred} & the the the the the the the the the \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\def\arraystretch{1.25}
+\caption{NMT with Attention Nepali-English Translation}
+\label{table:4.2}
+\vspace{5pt}
+\begin{tabular}{|l|p{14cm}|} \hline
+\multicolumn{2}{|l|}{Training} \\ \hline
+src & \textnepali {सहरमा निजी वाहन प्रयोग गर्न प्रतिबन्ध लगाइएको थियो।} \\ \hline
+ref & private vehicle use was banned in the city \\ \hline
+\textit{pred} &  private vehicle use was banned in the export \\ \hline
+\multicolumn{2}{|l|}{Testing} \\ \hline
+src & \textnepali{चरण} \textenglish{ii} \textnepali{परीक्षणहरू प्रभावकारिताको प्रारम्भिक पठन स्थापना गर्न प्रयोग गरिन्छन् र} \textenglish{nce} \textnepali{द्वारा लक्षित रोग भएका मानिसहरूको थोरै सङ्ख्यामा थप सुरक्षा अन्वेषण गरिन्छ।} \\ \hline
+ref & phase ii trials are used to establish an initial reading of efficacy and further explore safety in small numbers of people having the disease targeted by the nce \\ \hline
+\textit{pred} & testing of example respiratory providers is after after after the spread of a small virus that which is available after a significant risk of infection \\ \hline
+\end{tabular}
+\end{table}
