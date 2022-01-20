@@ -21,7 +21,7 @@ The BLEU score is then defined as \cite{manning2019cs224n}:
 \label{eq:5.3}
 \text{BLEU} = \beta \prod _{i = 1} ^ k p_n ^{w_n}
 \end{equation}
-
+\newpage
 \section{Result and Analysis}
 The BLEU score on training data is shown in Table \ref{table:5.1}.
 \begin{table}[H]
@@ -32,10 +32,10 @@ The BLEU score on training data is shown in Table \ref{table:5.1}.
 \vspace{5pt}
 \begin{tabular}{|c|c|c|} \hline
 & \textbf{Simple NMT} & \textbf{NMT with Attention} \\ \hline
-BLEU-1 & 0.031293 & 0.825670 \\ \hline
-BLEU-2 & 0.089161 & 0.801728 \\ \hline
-BLEU-3 & 0.135540 & 0.805319 \\ \hline
-BLEU-4 & 0.150501 & 0.774398 \\ \hline
+BLEU-1 & 0.303226 & 0.788407 \\ \hline
+BLEU-2 & 0.131711 & 0.756266 \\ \hline
+BLEU-3 & 0.072301 & 0.758734 \\ \hline
+BLEU-4 & 0.026194 & 0.720596 \\ \hline
 \end{tabular}
 \end{table}
 \
@@ -48,10 +48,10 @@ The BLEU score on test data is shown in Table \ref{table:5.2}.
 \vspace{5pt}
 \begin{tabular}{|c|c|c|} \hline
 & \textbf{Simple NMT} & \textbf{NMT with Attention} \\ \hline
-BLEU-1 & 0.030298 & 0.378832 \\ \hline
-BLEU-2 & 0.086331 & 0.306991 \\ \hline
-BLEU-3 & 0.131241 & 0.315862 \\ \hline
-BLEU-4 & 0.145728 & 0.262754 \\ \hline
+BLEU-1 & 0.174330 & 0.370088 \\ \hline
+BLEU-2 & 0.057952 & 0.294486 \\ \hline
+BLEU-3 & 0.028397 & 0.301333 \\ \hline
+BLEU-4 & 0.007851 & 0.247299 \\ \hline
 \end{tabular}
 \end{table}
 \

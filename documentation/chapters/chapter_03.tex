@@ -5,7 +5,7 @@ The data is cleaned by first removing the punctuation characters. In the case of
 An encoder and decoder model is used to construct a neural translation model. The LSTM variant of the recurrent neural network is used to construct each component of the model.
 
 \subsection{Recurrent Neural Networks}
-In recurrent neural networks, a model takes as input the current time step t and all of the previous time steps in order to compute the output $y^{<t>}$. At each time step $t$, the model is parameterized by shared weights $W_{ax}$, $W_{aa}$ and $W_{ya}$ , as shown in figure \ref{fig:3.1}.
+In recurrent neural networks, a model takes as input the current time step $t$ and all of the previous time steps in order to compute the output $y^{<t>}$. At each time step $t$, the model is parameterized by shared weights $W_{ax}$, $W_{aa}$ and $W_{ya}$ , as shown in figure \ref{fig:3.1}.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.8]{{rnn.png}}
@@ -20,7 +20,7 @@ a^{<t>} = g(W_{aa}a^{<t-1>} + W_{ax}x^{<t>} + b_a)
 \end{equation}
 \begin{equation}
 \label{eq:3.2}
-\hat{y}^{t} = g(W_{ya}^a{t} + b_y)
+\hat{y}^{<t>} = g(W_{ya}a^{<t>} + b_y)
 \end{equation}
 where $g$ is any activation function.
 
@@ -38,7 +38,7 @@ into a single matrix.
 The simplified version of equation \ref{eq:3.2} is written as:
 \begin{equation}
 \label{eq:3.5}
-\hat{y}^<t> = g(W_ya^{<t>} + b_y)
+\hat{y}^{<t>} = g(W_ya^{<t>} + b_y)
 \end{equation}
 The loss at time step $t$ is defined using cross-entropy as:
 \begin{equation}
@@ -57,7 +57,7 @@ The computation graph is pictured in figure \ref{fig:3.2}.
 \end{figure}
 
 \subsection{Long Short Term Memory}
-Figure \ref{fig:3.3} shows an Long Short Term Memory (LSTM) unit.
+Figure \ref{fig:3.3} shows the Long Short Term Memory (LSTM) unit.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{{lstm.png}}
@@ -67,20 +67,20 @@ Figure \ref{fig:3.3} shows an Long Short Term Memory (LSTM) unit.
 \
 The 3 separate gates used in the model are forget gate $\Gamma _f$, update gate $\Gamma _u$, and output gate $\Gamma _o$, each of which are deﬁned as:
 \begin{align}
-\Gamma _u = \sigma (W_u \cdot [x_t, h_{t-1}]) \\
-\Gamma _f = \sigma (W_f \cdot [x_t, h_{t-1}]) \\
-\Gamma _o = \sigma (W_o \cdot [x_t, h{t-1}])
+\Gamma _u = \sigma (W_u \cdot [a^{<t-1>}, x_t] + b_u) \\
+\Gamma _f = \sigma (W_f \cdot [a^{<t-1>}, x_t] + b_f) \\
+\Gamma _o = \sigma (W_o \cdot [a^{<t-1>}, x_t] + b_o)
 \end{align}
 The other computations are:
 \begin{align}
-\tilde{c}^{t} = \tanh (W_c [a^{<t-1>}, x^{<t>}] + b_c) \\
+\tilde{c}^{<t>} = \tanh (W_c [a^{<t-1>}, x^{<t>}] + b_c) \\
 c^{<t>} = \Gamma _u \times \tilde{c}^{<t>} + \Gamma _f \times c^{<t-1>} \\
 a^{<t>} = \Gamma _o \times \tanh (c^{<t>})
 \end{align}
 Here, $\tilde{c}^{<t>}$ is new information and $c^{<t−1>}$ is the old memory cell information \cite{mattdeitke_sm}.
 
 \section{Translation}
-To generate translations from a probability model, the Greedy 1-best search criterion is used. In greedy search, pt at every time step is calculated and the word that gives the highest probability is selected to use as the next word in our sequence. In other words,
+To generate translations from a probability model, the Greedy 1-best search criterion is used. In greedy search, probability at every time step is calculated and the word that gives the highest probability is selected to use as the next word in the sequence. In other words,
 \begin{equation}
 x_t = \text{argmax} _{\tilde{x}_t} \mathbb{P}(\tilde{x}_t | x_1, \ldots, x_n)
 \end{equation}

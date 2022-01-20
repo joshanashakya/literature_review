@@ -1,8 +1,8 @@
 \section{Dataset}
 The initial requirement for carrying out the experiment is the availability of parallel corpus for source and target languages. Nepali is not a resourceful language as there is no huge availability of large datasets. The following two different datasets are considered for the experiments.
 \begin{enumerate}[i.]
-\item English-Nepali Parallel Corpus from the Nepali National Corpus \cite{elra-w0077}
-\item tico-19 v2020-10-28 from the Translation Initiative for COVID-19 \cite{tiedemann2012parallel}
+\item English-Nepali Parallel Corpus from Nepali National Corpus \cite{elra-w0077}
+\item tico-19 v2020-10-28 from Translation Initiative for COVID-19 \cite{tiedemann2012parallel}
 \end{enumerate}
 \
 The following table gives the details of the datasets used.
@@ -18,7 +18,7 @@ No. of sentences & 1060 & 50 & 1054 & 3070 \\ \hline
 \end{tabular}
 \end{table}
 
-The sentences with length greater than 30 are discarded for the experiment. The final collection consists of 3981 sentence pairs. 3000 sentence pairs are used as training samples and the remaining 981 sentence pairs are used as testing samples.
+The sentences with length greater than 30 are discarded for the experiment. The final collection consists of 3981 sentence pairs. 3000 sentence pairs are used as training samples and the remaining 981 sentence pairs are used as test samples.
 
 \section{Implementation Environment}
 The simple NMT system is implemented by taking reference from the tutorials by Jason Brownlee \cite{brownlee_2020} and the NMT with attention is developed using TensorFlow Addons Networks : Sequence-to-Sequence NMT with Attention Mechanism as a guide \cite{tensorflow_addons}. 
@@ -26,11 +26,11 @@ The simple NMT system is implemented by taking reference from the tutorials by J
 Anaconda distribution of Python 3.7.12 is used as programming language. TensorFlow 2.6.0 as platform and TensorFlow Addons 0.11.2 as API are used in the system design. The final experiment is carried out on Google Colab with GPU as runtime environment.
 
 \section{Parameters}
-The following parameters are used to carry out the experiment.
+The following hyperparameters are used to carry out the experiment.
 \begin{table}[H]
 \centering
 \def\arraystretch{1.25}
-\textbf{\caption{Parameters}}
+\textbf{\caption{Hyperparameters}}
 \vspace{5pt}
 \begin{tabular}{|l|l|} \hline
 No. of epochs & 500 \\ \hline
@@ -40,46 +40,61 @@ Activation & softmax \\ \hline
 Optimizer & Adam \\ \hline 
 Default learning rate & 0.001 \\ \hline
 Loss & categorical cross entropy \\ \hline
-embedding\_dim & 128 and 256 \\ \hline
-No. of layers & unknown \\ \hline
+embedding\_dim & 128 \\ \hline
+%No. of layers & unknown \\ \hline
 \end{tabular}
 \end{table}
 
 \section{Sample Translations}
-The sample translations in Nepali to English direction using simple NMT and NMT with attention are respectively shown in Table \ref{table:4.1} and Table 6.
+The sample translations in Nepali to English direction using simple NMT and NMT with attention are respectively shown in Table \ref{table:4.1} and Table 6. In the tables, \\
+src $\rightarrow$ source text \\
+ref $\rightarrow$ reference translation \\
+\textit{pred} $\rightarrow$ predicted translation \\
 
 \begin{table}[H]
 \centering
 \def\arraystretch{1.25}
-\caption{Simple NMT Nepali-English Translation}
+\caption{Simple NMT: Nepali-English Translation}
 \label{table:4.1}
 \vspace{5pt}
 \begin{tabular}{|l|p{14cm}|} \hline
 \multicolumn{2}{|l|}{Training} \\ \hline
-src & \textnepali {हामीलाई परोपकारी अर्थशास्त्रको जरुरत छ} \\ \hline
-ref & we need caring economics \\ \hline
-\textit{pred} & the the \\ \hline
+src & \textnepali {तपाईँले फेरि डायल गर्नुपरेमा ठीक छ।} \\ \hline
+ref & if you need to dial back that s okay \\ \hline
+\textit{pred} & do you you dial dial dial the okay okay \\ \hline
+src & \textnepali {यसले सबै प्रतिबन्धहरूलाई समेट्दैन तर यो अझै पनि उपयोगी छ।} \\ \hline
+ref & it doesnt cover all the restrictions but its still useful \\ \hline
+\textit{pred} & the doesnt has has in in in in in useful \\ \hline
 \multicolumn{2}{|l|}{Testing} \\ \hline
-src & \textnepali {सरकारी क्षेत्रको ऋणात्मक बचत र लगानीको अन्तरलाई विदेशी सहायता र आन्तरिक ऋणबाट बेहोरिनेछ।} \\ \hline
-ref & the deficit between the public sector negative savings and investment will be borne thorough foreign assistance and internal borrowing \\ \hline
-\textit{pred} & the the the the the the the the the \\ \hline
+src & \textnepali {परिभाषित नीतिहरु प्रभावकारी रुपमा कार्यान्वयन गर्ने} \\ \hline
+ref & effective implementation of defined policies \\ \hline
+\textit{pred} & agriculture liberalization recession recession be be \\ \hline
+src & \textnepali {यसलाई ध्यानमा राखी सरकारले एक उच्चस्तरीय प्रशासन सुधार आयोग गठन गरेको थियो र सो आयोगद्वारा दिइएका सुझावहरुलाई लागु गर्दै जाने छ।} \\ \hline
+ref & the government has accordingly constituted a high level administration reform commission and a process has been initiated for the implementation of the commissiona s recommendationsa \\ \hline
+\textit{pred} & the the government the the the the the the the of of of the the the the the the the commissiona commissiona commissiona recommendationsa \\ \hline
 \end{tabular}
 \end{table}
 
 \begin{table}[H]
 \centering
 \def\arraystretch{1.25}
-\caption{NMT with Attention Nepali-English Translation}
+\caption{NMT with Attention: Nepali-English Translation}
 \label{table:4.2}
 \vspace{5pt}
 \begin{tabular}{|l|p{14cm}|} \hline
 \multicolumn{2}{|l|}{Training} \\ \hline
 src & \textnepali {सहरमा निजी वाहन प्रयोग गर्न प्रतिबन्ध लगाइएको थियो।} \\ \hline
 ref & private vehicle use was banned in the city \\ \hline
-\textit{pred} &  private vehicle use was banned in the export \\ \hline
+\textit{pred} &  private vehicle use was banned in the use of life \\ \hline
+src & \textnepali {न्युयोर्क इथाकामा कर्नेल विश्वविद्यालयका विद्यार्थीहरूले टम्पकिन्स काउन्टीमा हप्तामा कम्तीमा  मिलियन खर्च गर्थे।} \\ \hline
+ref & in ithaca new york cornell university students spent at least  million a week in tompkins county \\ \hline
+\textit{pred} &  in ithaca new york cornell university students spent at least  million a week in tompkins county \\ \hline
 \multicolumn{2}{|l|}{Testing} \\ \hline
 src & \textnepali{चरण} \textenglish{ii} \textnepali{परीक्षणहरू प्रभावकारिताको प्रारम्भिक पठन स्थापना गर्न प्रयोग गरिन्छन् र} \textenglish{nce} \textnepali{द्वारा लक्षित रोग भएका मानिसहरूको थोरै सङ्ख्यामा थप सुरक्षा अन्वेषण गरिन्छ।} \\ \hline
 ref & phase ii trials are used to establish an initial reading of efficacy and further explore safety in small numbers of people having the disease targeted by the nce \\ \hline
-\textit{pred} & testing of example respiratory providers is after after after the spread of a small virus that which is available after a significant risk of infection \\ \hline
+\textit{pred} & it is a large outbreaks of covid it may assist in many patients and use of the use of infection that doctors from the disease and the infection \\ \hline
+src & \textnepali{एन्टिबडीहरू} \textenglish{b} \textnepali{लिम्फोसाइटहरूले रोगजनक र अन्य बाह्य वस्तुहरूसँग लड्न उत्पादन गरेका इम्युनोग्लोबिन हुन्} \textenglish{ig} \textnepali{र तिनीहरूले रोगजनकमा अद्वितीय अणुहरूको पहिचान गर्छन् र तिनीहरूलाई सिधै तटस्थ पार्छन्।} \\ \hline
+ref & antibodies are an immunoglobulin ig produced by b lymphocytes to fight pathogens and other foreign objects and they recognize unique molecules in the pathogens and neutralize them directly \\ \hline
+\textit{pred} & the remaining of coronaviruses are also designed to be pathogenic including the most of many and mammals but many people many and other areas \\ \hline
 \end{tabular}
 \end{table}
